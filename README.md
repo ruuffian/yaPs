@@ -2,7 +2,13 @@
 
 yaPs is a peer-to-peer (and hopefully some day peer-to-server) chat client based in a linux terminal.
 
-### Installation
+## Usage
+
+Before you do anything, make sure you compile the source code with `make`.
+
+For a basic demo of the client-server interactions, run `./yaPs`. If this command doesn't work, make sure the script has execute permissions with `chmod +x yaPs`. For a more realistic use case, running the client and servers in separate terminals via `./bin/server` and `./bin/client` also works.
+
+## Installation
 
 1. `git clone git@github.com:ruuffian/yaPs.git` will clone the source code.
 
@@ -11,6 +17,6 @@ yaPs is a peer-to-peer (and hopefully some day peer-to-server) chat client based
 3. `./bin/server` to run the server, `./bin/client` to run the client. Atm, very simple.
 
 
-### License
+## License
 
 It's an MIT License, go crazy. Open source is good.

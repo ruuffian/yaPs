@@ -13,10 +13,10 @@ int main(void) {
   };
 
   if(connect(socket_fd, &addr, sizeof(addr)) == -1) return 1; 
-  printf("[INFO] Successfully connected to server\n");
+  printf("[CLIENT] [INFO] Successfully connected to server\n");
 
   while(1){
-    printf("Input message:: ");
+    printf("[CLIENT] Input message:: ");
     char msg[MAX_MSG_SIZE];
     fgets(msg, MAX_MSG_SIZE, stdin);
     msg[strcspn(msg, "\n")] = 0;
@@ -24,17 +24,17 @@ int main(void) {
     msg[0] = '\0';
 
     if(msg_size == -1) return 1;
-    printf("[INFO] Message sent successfully!\n");
+    printf("[CLIENT] [INFO] Message sent successfully!\n");
 
     char res_buffer[MAX_MSG_SIZE];
     ssize_t response_size = recv(socket_fd, res_buffer, MAX_MSG_SIZE, 0);
     if(response_size == -1) return 1;
-    printf("[INFO] Recieved response from server: %s\n", res_buffer);
+    printf("[CLIENT] [INFO] Recieved response from server: %s\n", res_buffer);
     res_buffer[0] = '\0';
   }
 
   close(socket_fd);
-  printf("[INFO] Connection terminated\n");
+  printf("[CLIENT] [INFO] Connection terminated\n");
 
   return 0;
 }

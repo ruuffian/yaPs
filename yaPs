@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+./bin/server &
+server_pid=$!
+
+sigint_handler(){
+  echo "Recieved SIGINT, shutting down client and server..."
+  kill $client_pid
+}
+
+trap sigint_handler SIGINT
+
+
+./bin/client < /dev/tty &
+client_pid=$!
+
+jobs -p %client_job client > /dev/null 2>&1
+
+wait $client_pid
+
+kill $server_pid
+
+
