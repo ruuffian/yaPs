@@ -6,13 +6,12 @@ int main(void) {
   int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
   if(socket_fd == -1) return 1;
 
-  struct sockaddr addr = {
-    AF_INET,
-    htons(3000),
-    INADDR_ANY
-  };
+  struct sockaddr_in addr;
+   addr.sin_family = AF_INET;
+   addr.sin_port = htons(3000);
+   addr.sin_addr.s_addr = INADDR_ANY;
 
-  if(connect(socket_fd, &addr, sizeof(addr)) == -1) return 1; 
+  if(connect(socket_fd, (struct sockaddr *)&addr, sizeof(addr)) == -1) return 1; 
   printf("[CLIENT] [INFO] Successfully connected to server\n");
 
   while(1){

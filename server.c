@@ -1,5 +1,6 @@
 #include "include/server.h"
 
+
 #define MAX_QUEUE_SIZE 15
 #define MAX_MSG_SIZE 500
 
@@ -12,13 +13,12 @@ int main(void) {
   
   printf("[SERVER] [INFO] Host socket successfully opened on fd [%d]\n", socket_fd);
 
-  struct sockaddr addr = {
-    AF_INET,
-    htons(3000),
-    INADDR_ANY
-  };
+  struct sockaddr_in addr;
+  addr.sin_family = AF_INET;
+  addr.sin_port = htons(3000);
+  addr.sin_addr.s_addr = INADDR_ANY;
 
-  if(bind(socket_fd, &addr, sizeof(addr)) == -1){
+  if(bind(socket_fd, (struct sockaddr *)&addr, sizeof(addr)) == -1){
     printf("[SERVER] [ERROR] Failed to bind host socket\n");
     return 1;
   }
