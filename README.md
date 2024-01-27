@@ -2,6 +2,8 @@
 
 yaPs is a peer-to-peer (and hopefully some day peer-to-server) chat client based in a linux terminal.
 
+In the final product, a user will be able to host or join chatrooms, as well as privately message users. It will have a pleasant ui built with the ncurses library.
+
 ## Usage
 
 Before you do anything, make sure you compile the source code with `make`.

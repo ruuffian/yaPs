@@ -5,21 +5,24 @@ IDIR:=include
 LDIR:=
 ODIR:=obj
 
-WFLAGS:=-Wall -Werror -Wextra -Wno-missing-braces
+WFLAGS:=-Wall -Werror -Wextra 
 IFLAGS:=-I$(IDIR)
 
 LIBS:=
 
-_DEPS:=server.h client.h
-DEPS:=$(patsubst %,$(IDIR)/%,$(_DEPS))
+_COMDEPS:=commons.h
+COMDEPS:=$(patsubst %,$(IDIR)/%,$(_COMDEPS))
 
-$(ODIR)/%.o: %.c $(DEPS)  
-	$(CC) -c -o $@ $< $(WFLAGS) $(IFLAGS)
+C_DEPS:=$(IDIR)/client.h
+S_DEPS:=$(IDIR)/server.h
 
-server: $(ODIR)/server.o
+$(ODIR)/%.o: %.c   
+	$(CC) -c -o $@ $< $(WFLAGS) 
+
+server: $(ODIR)/server.o $(S_DEPS) $(COMDEPS)
 	$(CC) -o $(TARGET)/$@ $< $(WFLAGS) $(IFLAGS) $(LIBS)
 
-client: $(ODIR)/client.o
+client: $(ODIR)/client.o $(C_DEPS) $(COMDEPS)
 	$(CC) -o $(TARGET)/$@ $< $(WFLAGS) $(IFLAGS) $(LIBS)
 
 .PHONY: clean all

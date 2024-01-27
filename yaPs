@@ -4,7 +4,7 @@
 server_pid=$!
 
 sigint_handler(){
-  echo "Recieved SIGINT, shutting down client and server..."
+  echo "\nRecieved SIGINT, shutting down client and server..\n."
   kill $client_pid
 }
 
