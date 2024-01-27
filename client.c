@@ -8,6 +8,7 @@
  * Intended features:
  *   [x] Connect to yaPs server
  *   [] Create chatroom
+ *   [] Join chatroom
  *   [] Send/recieve messages in chatroom
  *   [] Message history
  *   [] Create private chatrooms
