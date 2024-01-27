@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 #define DEFAULT_PORT 3000
 #define MAX_MSG_SIZE 500

@@ -38,14 +38,19 @@ int main(int argc, char** argv) {
     return 1;
   }
 
+  /*  MAIN PROGRAM LOOP
+   *    Listen for requests on main endpoint and spawn chatrooms. 
+   */
   while(listen(main_fd, MAX_QUEUE_SIZE) == 0) { 
+
+    /* Open file descriptor for client connection */
     int client_fd = accept(main_fd, 0, 0);
     if(client_fd == -1){
       printf("[SERVER] [NOTICE] Failed to accept client connection\n");
       continue;
     }
+    printf("[SERVER] [INFO] Connected to client on descriptor [%d]\n", client_fd);
 
-    printf("[SERVER] [INFO] Connection recieved, assigned fd [%d]\n", client_fd);
     ssize_t msg_size;    
     do {
       char msg_buffer[MAX_MSG_SIZE];
@@ -55,6 +60,18 @@ int main(int argc, char** argv) {
         continue;
       } else if(msg_size == 0){
         continue;
+      }
+      switch(fork()){
+        case -1:
+          printf("[SERVER] [ERROR] Failed to fork child\n");
+          continue;
+        case 0: /* child */
+          close(main_fd);
+          exit(spawn_chatroom(client_fd));
+          break;
+        default: /* parent */
+          close(client_fd);
+          break;
       }
 
       printf("[SERVER] [INFO] Recieved message on fd [%d]: %s\n", client_fd, msg_buffer);
@@ -70,5 +87,19 @@ int main(int argc, char** argv) {
     printf("\n[SERVER] [INFO] Connection on fd [%d] closed\n", client_fd);
   }
   
+  return 0;
+}
+
+int spawn_chatroom(fd) 
+int fd;
+{
+  printf("[SERVER] [INFO] Created chatroom on fd %d", fd);
+  char welcome_msg[] = "Welcome to the ChatRoom! Please do your best to be respectful.\n"; 
+  ssize_t msg_size = send(fd, welcome_msg, strlen(welcome_msg) + 1, 0);
+  if(msg_size == -1) {
+    printf("[SERVER] [NOTICE] Failed to send response to client!\n");
+    return 1;
+  }
+  printf("[SERVER] [INFO] Successfully echoed client payload\n");
   return 0;
 }
